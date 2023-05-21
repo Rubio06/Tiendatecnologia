@@ -1,0 +1,27 @@
+
+.div-sesion{
+    width:55%; 
+    justify-content:space-between; 
+    align-items:center;
+}
+.div-bienvenido{
+    color:white; 
+    text-align:center;
+    flex-grow: 2; 
+    font-weight:bold;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.div-bienvenido .div-foto{
+    flex-grow: 1;
+}
+.div-bienvenido .div-usuario{
+    flex-grow: 1;
+}
+.div-btncerrar{
+    flex-grow: 1;
+}
+.div-btncerrar a{
+    width: 100%;
+}

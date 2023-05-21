@@ -1,0 +1,117 @@
+.form-flex{
+    display: flex;
+    border: 2px solid white;
+    width: 40%;
+}
+.form-flex div{
+    width: 60%;
+    color: white;
+    
+}
+.form-flex button{
+    width: 40%;
+}
+/* estilos login */
+body{
+    font-family: 'League Spartan', sans-serif;
+    font-weight: bold;
+    color: var(--light);
+}
+:root{
+    --dark: #16191c;
+    --dark-x: #1e2126;
+    --light: #ffffff;
+}
+.bg-dark{
+    background-color: var(--dark);
+}
+.black{
+    background-color: var(--dark-x);
+}
+.form-control .btn{
+    min-height: 3.125rem;
+    line-height: initial;
+    justify-content: space-evenly;
+}
+/* ///PANEL DE INGRESO */
+.ingreso{
+    background: rgba(41, 182, 111, 0.719);
+    font-size: 18px;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    box-shadow: 0px 0px 30px 0px rgb(33, 138, 33);
+    /* border: 1px solid rgb(12, 99, 33); */
+    border-radius: 0px 10px 10px 0px;
+    color: rgb(2, 2, 17);
+
+}
+.invalido{
+    background: rgba(182, 41, 60, 0.719);
+    font-size: 18px;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    box-shadow: 0px 0px 30px 0px rgba(182, 41, 60, 0.719);
+    /* border: 1px solid rgb(12, 99, 33); */
+    border-radius: 0px 10px 10px 0px;
+    color: rgb(2, 2, 17);
+}
+.blanco{
+    background: rgba(180, 182, 41, 0.719);
+    font-size: 18px;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    box-shadow: 0px 0px 30px 0px rgba(180, 182, 41, 0.719);
+    /* border: 1px solid rgb(12, 99, 33); */
+    border-radius: 0px 10px 10px 0px;
+    color: rgb(2, 2, 17);
+}
+#letrero{
+    /* background: rgb(240, 233, 233);
+    font-family: Arial, Helvetica, sans-serif; */
+    width: 29%;
+    /* font-size: 14px;
+    padding: 5px;
+    text-align: center; */
+}
+.desaparecer{
+    position: absolute;
+    left: -410px;
+    /* animation: desaparecer 3s forwards; */
+}
+@keyframes desaparecer{
+    0%{
+        position: absolute;
+        bottom: 0;
+
+        left: 0px;
+    }
+    100%{
+        bottom: 0;
+
+        right: 0px;
+    } 
+}
+/* ////////////////////////////////////////////////// */
+.aparecer{
+    position: absolute;
+    left: 0px;
+    /* animation: aparecer 3s forwards; */
+}
+@keyframes aparecer{
+    0%{
+        position: absolute;
+        bottom: 0;
+        left: -410px;
+    }
+    100%{
+        bottom: 0;
+
+        right: 0px;
+    }
+}
