@@ -1,8 +1,6 @@
 // function para logearse
 function logearse() {
-    const usernameRegex = /^[a-zA-Z0-9_-]{3,10}$/;
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
+ 
     let usuario = document.getElementById('usuario').value;
     let contrasena = document.getElementById('contrasena').value;
 
@@ -10,37 +8,31 @@ function logearse() {
         toogleDes()
         content.innerHTML = "<h1 class='blanco'>Debe de completar los espacios en blanco</h1>"
     } else {
-        if (!usernameRegex.test(usuario)) {
-            alert('El nombre de usuario no es válido. Debe contener entre 3 y 10 caracteres y solo puede contener letras, números, guiones bajos (_) y guiones (-).');
-        }
-        // Validar la contraseña
-        if (!passwordRegex.test(contrasena)) {
-            alert('La contraseña no es válida. Debe contener al menos 8 caracteres, incluyendo al menos una letra minúscula, una letra mayúscula, un número y un carácter especial (@, $, !, %, *, ?, &).');
-        } else {
-            data = new FormData()
-            data.append('usuario', usuario)
-            data.append('contrasena', contrasena)
-            data.append('op', 'logearse')
-            fetch('./consultas.php', {
-                method: 'POST',
-                body: data
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data === 1) {
-                    toogleDes()
-                    content.innerHTML =
-                        "<h1 class='ingreso'>Ingreso correctamente, Bienvenido</h1>"
-                    setTimeout(() => {
-                        location.href = 'productos.php'
-                    }, 6000)
-                } else {
-                    toogleDes()
-                    content.innerHTML =
-                        "<h1 class='invalido'>Error !! Usuario o contraseña invalida</h1>"
-                }
-            }).catch(err => console.log(err))
-        }
+
+        data = new FormData();
+        data.append('usuario', usuario)
+        data.append('contrasena', contrasena)
+        data.append('op', 'logearse')
+        fetch('./consultas.php', {
+            method: 'POST',
+            body: data
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data === 1) {
+                toogleDes()
+                content.innerHTML =
+                    "<h1 class='ingreso'>Ingreso correctamente, Bienvenido</h1>"
+                setTimeout(() => {
+                    location.href = 'productos.php'
+                }, 6000)
+            } else {
+                toogleDes()
+                content.innerHTML =
+                    "<h1 class='invalido'>Error !! Usuario o contraseña invalida</h1>"
+            }
+        }).catch(err => console.log(err))
+    
     }
 }
 // LETRERO VALIDACION

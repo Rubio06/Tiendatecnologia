@@ -19,8 +19,8 @@
 
 <body class="bg-dark">
     <section>
-        <div class="row g-0" style="display: flex; width:100%;">
-            <div class="col-lg-7" style="width: 66%;">
+        <div class="row g-0">
+            <div class="col-lg-7 d-none d-lg-block" style="width: 66%;">
                 <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" style="opacity: 0.5;">
                     <div class="carousel-indicators">
                         <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0"
@@ -69,40 +69,42 @@
                 <div class="px-lg-5 pt-lg-4 pd-lg-3 p-4 w-100">
                     <!-- <img src="./imagenes/dell-1.svg" alt="" style="height:30px;"> -->
                 </div>
-                <div class="px-lg-5 py-lg-4 p4 w-100 align-self-center">
-                    <h1 class="mb-4" style="font-weight: bold;">Bienvenido de Vuelta</h1>
-                    <div class="mb-5" id="miFormulario">
-                        <div class="mb-4">
-                            <label for="exampleInputEmail1" class="form-label black font-weight-bold">Usuario</label>
-                            <input type="text" class="form-control black border-0" id="usuario"
-                                aria-describedby="emailHelp" pattern="/^[a-zA-Z0-9_-]{3,16}$/" placeholder="Ingresa tu usuario">
+                <div>
+                    <div class="px-lg-5 py-lg-4 p4 w-100 align-self-center login-cont">
+                        <h1 class="mb-4" style="font-weight: bold;">Bienvenido de Vuelta</h1>
+                        <div class="mb-5" id="miFormulario">
+                            <div class="mb-4">
+                                <label for="exampleInputEmail1" class="form-label black font-weight-bold">Usuario</label>
+                                <input type="text" class="form-control black border-0" id="usuario"
+                                    aria-describedby="emailHelp" pattern="/^[a-zA-Z0-9_-]{3,16}$/" placeholder="Ingresa tu usuario">
+                            </div>
+                            <div class="mb-4">
+                                <label for="exampleInputPassword1" class="form-label font-weight-bold">Contraseña</label>
+                                <input type="password" class="form-control black border-0 mb-2" id="contrasena"
+                                    placeholder="Ingresa tu contraseña" pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/">
+                                <a href="#" id="emailHelp" class="form-text text-muted text-decoration-none">¿Has olvidado
+                                    tu contraseña?</a>
+                            </div>
+                            <button class="btn btn-primary w-100" onclick="logearse()">Iniciar sessión</button>
                         </div>
-                        <div class="mb-4">
-                            <label for="exampleInputPassword1" class="form-label font-weight-bold">Contraseña</label>
-                            <input type="password" class="form-control black border-0 mb-2" id="contrasena"
-                                placeholder="Ingresa tu contraseña" pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/">
-                            <a href="#" id="emailHelp" class="form-text text-muted text-decoration-none">¿Has olvidado
-                                tu contraseña?</a>
+                        <p style="font-weight: bold;" class="text-center">O inicia sessión con</p>
+    
+                        <div style="display: flex; width:100%; justify-content:space-between">
+                            <div style="width: 48%;">
+                                <button style="width: 100%;" class="btn btn-outline-light"><i
+                                        class="fa-brands fa-google lead mr-2 "></i> google</button>
+                            </div>
+                            <div style="width: 48%;">
+                                <button style="width: 100%;" class="btn btn-outline-light"><i
+                                        class="fa-brands fa-facebook-f lead mr-2"></i> facebook</button>
+                            </div>
                         </div>
-                        <button class="btn btn-primary w-100" onclick="logearse()">Iniciar sessión</button>
                     </div>
-                    <p style="font-weight: bold;" class="text-center">O inicia sessión con</p>
-
-                    <div style="display: flex; width:100%; justify-content:space-between">
-                        <div style="width: 48%;">
-                            <button style="width: 100%;" class="btn btn-outline-light"><i
-                                    class="fa-brands fa-google lead mr-2 "></i> google</button>
-                        </div>
-                        <div style="width: 48%;">
-                            <button style="width: 100%;" class="btn btn-outline-light"><i
-                                    class="fa-brands fa-facebook-f lead mr-2"></i> facebook</button>
-                        </div>
+                    <div class="text-center px-lg-5 pt-lg-3 pb-lg-4 p4 w-100 mt-auto pie">
+                        <p class="d-inline-block mb-0">¿Todavia no tienes una cuenta?</p> <a href="registrarme.php"
+                            class="text-light font-weight-bold text-decoration-none">Crea una ahora</a>
                     </div>
-                </div>
 
-                <div class="text-center px-lg-5 pt-lg-3 pb-lg-4 p4 w-100 mt-auto">
-                    <p class="d-inline-block mb-0">¿Todavia no tienes una cuenta?</p> <a href="registrarme.php"
-                        class="text-light font-weight-bold text-decoration-none">Crea una ahora</a>
                 </div>
             </div>
         </div>

@@ -7,7 +7,7 @@
         switch($op){
             ///////////////////
             case "mostrarDatos":
-                $sql = "SELECT codpro,codigo,nombre, cantidad, precio, fecharegistro,categoria.categoria'CATEGORIA',estado.estado'ESTADO' FROM producto INNER JOIN categoria ON producto.codcategoria = categoria.cod_categoria INNER JOIN estado ON producto.codestado = estado.cod_estado ORDER BY `producto`.`codigo` ASC";
+                $sql = "SELECT codpro,codigo,nombre, cantidad, precio,fecha_registro,categoria.categoria'CATEGORIA',estado.estado'ESTADO',cliente.cliente_codigo'CODCLIENTE' FROM producto INNER JOIN categoria ON producto.codcategoria = categoria.cod_categoria INNER JOIN estado ON producto.codestado = estado.cod_estado INNER JOIN cliente ON producto.fk_cliente = cliente.cliente_codigo  ORDER BY `producto`.`codigo` ASC";
                 $exe = mysqli_query($cn, $sql);
                 //Obtener todas las filas en un array asociativo, numérico, o en ambos
                 $datos = mysqli_fetch_all($exe, MYSQLI_ASSOC);
@@ -17,10 +17,10 @@
             ///////////////////
             case "buscar":
                 $salida = "";
-                $query = "SELECT codpro,codigo,nombre, cantidad, precio, fecharegistro,categoria.categoria'CATEGORIA',estado.estado'ESTADO' FROM producto INNER JOIN categoria ON producto.codcategoria = categoria.cod_categoria INNER JOIN estado ON producto.codestado = estado.cod_estado ORDER BY `producto`.`codigo` ASC";
+                $query = "SELECT codpro,codigo,nombre, cantidad, precio,fecha_registro,categoria.categoria'CATEGORIA',estado.estado'ESTADO' FROM producto INNER JOIN categoria ON producto.codcategoria = categoria.cod_categoria INNER JOIN estado ON producto.codestado = estado.cod_estado ORDER BY `producto`.`codigo` ASC";
                 if (isset($_POST["busqueda"])) {
                     $busqueda = limpiar_cadena($_POST["busqueda"]);
-                    $query = "SELECT codpro,codigo,nombre, cantidad, precio, fecharegistro,categoria.categoria'CATEGORIA',estado.estado'ESTADO' FROM producto INNER JOIN categoria ON producto.codcategoria = categoria.cod_categoria INNER JOIN estado ON producto.codestado = estado.cod_estado WHERE producto.nombre LIKE '%" .$busqueda. "%' ORDER BY `producto`.`codigo` ASC;";
+                    $query = "SELECT codpro,codigo,nombre, cantidad, precio,fecha_registro,categoria.categoria'CATEGORIA',estado.estado'ESTADO' FROM producto INNER JOIN categoria ON producto.codcategoria = categoria.cod_categoria INNER JOIN estado ON producto.codestado = estado.cod_estado WHERE producto.nombre LIKE '%" .$busqueda. "%' ORDER BY `producto`.`codigo` ASC;";
                 }
                 $result = mysqli_query($cn, $query);
                 if (mysqli_num_rows($result) > 0) {
@@ -29,11 +29,13 @@
                                 <tr id='codigo' ondblclick='darClick(" . $lista["codigo"] . ")'>
                                     <td scope='row' style='background:#B9F3B3; font-weight: bold;'>" . $lista["codpro"] .$lista["codigo"] . "</td>
                                     <td>" . $lista["nombre"] . "</td>
-                                    <td>" . $lista["cantidad"] . "</td>
-                                    <td>" . $lista["precio"] . "</td>
-                                    <td>" . $lista["fecharegistro"] . "</td>
-                                    <td>" . $lista["CATEGORIA"] . "</td>
+                                    <td style='text-align:center;'>" . $lista["cantidad"] . "</td>
+                                    <td style='text-align:center;'>" . $lista["precio"] . "</td>
+                                    <td style='text-align:center;'>" . $lista["fecha_registro"] . "</td>
+                                    <td style='text-align:center;'>" . $lista["CATEGORIA"] . "</td>
                                     <td>" . $lista["ESTADO"] . "</td>
+                                    
+                                    <td style='text-align:center;'> <button onclick='mandarId(`" .  $lista['codigo'] ."`,`" . $lista['nombre'] . "`,`" . $lista['precio'] . "`,`" . $lista['CATEGORIA'] . "`,`" . $lista['ESTADO'] ."`)' style='border:none; font-size:25px;' data-bs-toggle='modal' data-bs-target='#exampleModal'><i class='fa-solid fa-cart-shopping'></i></button></td>
                                 </tr>
                                 ";
                     }
@@ -43,15 +45,30 @@
                 echo json_encode($salida);
                 $cn->close();
             break;
+
+            ///
+            case "countResultado":
+                $busqueda = $_POST["busqueda"];
+                $sql = "SELECT COUNT(*) AS 'RESULTADO' FROM producto WHERE nombre LIKE '%" . $busqueda. "%'";
+
+                $exe = mysqli_query($cn, $sql);
+                if (mysqli_num_rows($exe) > 0) {
+                    $datos = mysqli_fetch_all($exe, MYSQLI_ASSOC);
+                }
+                echo json_encode($datos);
+                $cn->close();
+
+            break;
+
             ///////////////////
             case "buscarFecha":
                 $salida = "";
-                $query = "SELECT codpro,codigo,nombre, cantidad, precio, fecharegistro,categoria.categoria'CATEGORIA',estado.estado'ESTADO' FROM producto INNER JOIN categoria ON producto.codcategoria = categoria.cod_categoria INNER JOIN estado ON producto.codestado = estado.cod_estado ORDER BY `producto`.`codigo` ASC";
+                $query = "SELECT codpro,codigo,nombre, cantidad, precio, fecha_registro,categoria.categoria'CATEGORIA',estado.estado'ESTADO' FROM producto INNER JOIN categoria ON producto.codcategoria = categoria.cod_categoria INNER JOIN estado ON producto.codestado = estado.cod_estado ORDER BY `producto`.`codigo` ASC";
                 if (isset($_POST["desde"]) && isset($_POST["hasta"])) {
                     $desde = limpiar_cadena($_POST["desde"]);
                     $hasta = limpiar_cadena($_POST["hasta"]);
 
-                    $query = "SELECT codpro,codigo,nombre, cantidad, precio, fecharegistro,categoria.categoria'CATEGORIA',estado.estado'ESTADO' FROM producto INNER JOIN categoria ON producto.codcategoria = categoria.cod_categoria INNER JOIN estado ON producto.codestado = estado.cod_estado WHERE fecharegistro BETWEEN '$desde' AND '$hasta'";
+                    $query = "SELECT codpro,codigo,nombre, cantidad, precio, fecha_registro,categoria.categoria'CATEGORIA',estado.estado'ESTADO' FROM producto INNER JOIN categoria ON producto.codcategoria = categoria.cod_categoria INNER JOIN estado ON producto.codestado = estado.cod_estado WHERE fecha_registro BETWEEN '$desde' AND '$hasta'";
                 }
                 $result = mysqli_query($cn, $query);
                 if (mysqli_num_rows($result) > 0) {
@@ -60,11 +77,13 @@
                                 <tr id='codigo' ondblclick='darClick(" . $lista["codigo"] . ")'>
                                     <td scope='row' style='background:#B9F3B3; font-weight: bold;'>" . $lista["codpro"] .$lista["codigo"] . "</td>
                                     <td>" . $lista["nombre"] . "</td>
-                                    <td>" . $lista["cantidad"] . "</td>
-                                    <td>" . $lista["precio"] . "</td>
-                                    <td>" . $lista["fecharegistro"] . "</td>
-                                    <td>" . $lista["CATEGORIA"] . "</td>
-                                    <td>" . $lista["ESTADO"] . "</td>
+                                    <td style='text-align:center;'>" . $lista["cantidad"] . "</td>
+                                    <td style='text-align:center;'>" . $lista["precio"] . "</td>
+                                    <td>" . $lista["fecha_registro"] . "</td>
+                                    <td style='text-align:center;'>" . $lista["CATEGORIA"] . "</td>
+                                    <td style='text-align:center;'>" . $lista["ESTADO"] . "</td>
+
+                                    <td style='text-align:center;'> <button onclick='mandarId(`" .  $lista['codigo'] ."`,`" . $lista['nombre'] . "`,`" . $lista['precio'] . "`,`" . $lista['CATEGORIA'] . "`,`" . $lista['ESTADO'] ."`)'  style='border:none; font-size:25px;' data-bs-toggle='modal' data-bs-target='#exampleModal'><i class='fa-solid fa-cart-shopping'></i></button></td>
     
                                 </tr>
                                 ";
@@ -78,12 +97,12 @@
             ///////////////////
             case "buscarCategoria":
                 $salida = "";
-                $sql = "SELECT codpro,codigo,nombre, cantidad, precio, fecharegistro,categoria.categoria'CATEGORIA',estado.estado'ESTADO' FROM producto INNER JOIN categoria ON producto.codcategoria = categoria.cod_categoria INNER JOIN estado ON producto.codestado = estado.cod_estado ORDER BY `producto`.`codigo` ASC";
+                $sql = "SELECT codpro,codigo,nombre, cantidad, precio, fecha_registro,categoria.categoria'CATEGORIA',estado.estado'ESTADO' FROM producto INNER JOIN categoria ON producto.codcategoria = categoria.cod_categoria INNER JOIN estado ON producto.codestado = estado.cod_estado ORDER BY `producto`.`codigo` ASC";
                 if (isset($_POST["categoria"])) {
                     $categoria = $_POST["categoria"];
-                    $sql = "SELECT codpro,codigo ,nombre, cantidad,precio,fecharegistro,categoria,estado FROM `producto` INNER JOIN categoria ON producto.codcategoria = categoria.cod_categoria INNER JOIN estado ON estado.cod_estado = producto.codestado WHERE categoria.cod_categoria = '$categoria' ORDER BY `producto`.`codigo` ASC;";
+                    $sql = "SELECT codpro,codigo ,nombre, cantidad,precio,fecha_registro,categoria,estado FROM `producto` INNER JOIN categoria ON producto.codcategoria = categoria.cod_categoria INNER JOIN estado ON estado.cod_estado = producto.codestado WHERE categoria.cod_categoria = '$categoria' ORDER BY `producto`.`codigo` ASC;";
                 }else{
-                    $sql = "SELECT codpro,codigo,nombre, cantidad, precio, fecharegistro,categoria.categoria'CATEGORIA',estado.estado'ESTADO' FROM producto INNER JOIN categoria ON producto.codcategoria = categoria.cod_categoria INNER JOIN estado ON producto.codestado = estado.cod_estado ORDER BY `producto`.`codigo` ASC";
+                    $sql = "SELECT codpro,codigo,nombre, cantidad, precio, fecha_registro,categoria.categoria'CATEGORIA',estado.estado'ESTADO' FROM producto INNER JOIN categoria ON producto.codcategoria = categoria.cod_categoria INNER JOIN estado ON producto.codestado = estado.cod_estado ORDER BY `producto`.`codigo` ASC";
                 }
                 $query = mysqli_query($cn,$sql);
                 if (mysqli_num_rows($query) > 0) {
@@ -92,11 +111,13 @@
                         <tr id='codigo' ondblclick='darClick(" . $lista["codigo"] . ")'>
                             <td scope='row' style='background:#B9F3B3; font-weight: bold;'>" .$lista["codpro"] . $lista["codigo"] . "</td>
                             <td>" . $lista["nombre"] . "</td>
-                            <td>" . $lista["cantidad"] . "</td>
-                            <td>" . $lista["precio"] . "</td>
-                            <td>" . $lista["fecharegistro"] . "</td>
-                            <td>" . $lista["categoria"] . "</td>
-                            <td>" . $lista["estado"] . "</td>
+                            <td style='text-align:center;'>" . $lista["cantidad"] . "</td>
+                            <td style='text-align:center;'>" . $lista["precio"] . "</td>
+                            <td style='text-align:center;'>" . $lista["fecha_registro"] . "</td>
+                            <td style='text-align:center;'>" . $lista["categoria"] . "</td>
+                            <td style='text-align:center;'>" . $lista["estado"] . "</td>
+
+                            <td style='text-align:center;'> <button onclick='mandarId(`" .  $lista['codigo'] ."`,`" . $lista['nombre'] . "`,`" . $lista['precio'] . "`,`" . $lista['categoria'] . "`,`" . $lista['estado'] ."`)'  style='border:none; font-size:25px;' data-bs-toggle='modal' data-bs-target='#exampleModal'><i class='fa-solid fa-cart-shopping'></i></button></td>
                         </tr>
                         ";
                     }
@@ -108,7 +129,6 @@
             break;
             /////////////////////
             case "insertarDatos":
-
                 try{
                     $base = new PDO("mysql:host=localhost; dbname=practica","root","");
                     $base->exec("SET CHARACTER SET utf8");
@@ -117,21 +137,19 @@
                     $nombre = limpiar_cadena($_POST["nombre"]);
                     $cantidad = limpiar_cadena($_POST["cantidad"]);
                     $precio = limpiar_cadena($_POST["precio"]);
-                    $fecharegistro = limpiar_cadena($_POST["fecharegistro"]);
                     $codcategoria = limpiar_cadena($_POST["codcategoria"]);
                     $codestado = limpiar_cadena($_POST["codestado"]);
-                    // $sql = "INSERT INTO `producto`(`codpro`,`nombre`, `cantidad`, `precio`, `fecharegistro`, `codcategoria`, `codestado`) VALUES ('$codpro','$nombre','$cantidad','$precio','$fecharegistro','$codcategoria','$codestado')";
-    
-                    $sql = "INSERT INTO producto (codpro,nombre, cantidad, precio, fecharegistro, codcategoria, codestado) VALUES (:in_codpro, :in_nombre, :in_cantidad, :in_precio, :in_fecharegistro, :in_codcategoria, :in_codestado)";
+                    $fk_cliente = limpiar_cadena($_POST["fk_cliente"]);
+
+                    $sql = "INSERT INTO producto (codpro,nombre, cantidad, precio, codcategoria, codestado,fk_cliente) VALUES (:in_codpro, :in_nombre, :in_cantidad, :in_precio, :in_codcategoria, :in_codestado, :in_fkcliente)";
                     $result = $base->prepare($sql);
                     $data = $result->execute(array( ":in_codpro"=>$codpro,
                                             ":in_nombre"=>$nombre,
                                             ":in_cantidad"=>$cantidad,
                                             ":in_precio"=>$precio,
-                                            ":in_fecharegistro"=>$fecharegistro,
                                             ":in_codcategoria"=>$codcategoria,
-                                            ":in_codestado"=>$codestado));
-                    // $conex = mysqli_query($cn, $sql);
+                                            ":in_codestado"=>$codestado,
+                                            ":in_fkcliente"=>$fk_cliente));
                     echo json_encode($data);
                 }catch(Exception $e){
                     die("Error" . $e->getMessage());
@@ -149,14 +167,14 @@
             break;
             ////////////////
             case "actualizarDatos":
-                $codigo = limpiar_cadena($_POST["codigo"]);
-                $nombre = limpiar_cadena($_POST["nombre"]);
-                $cantidad = limpiar_cadena($_POST["cantidad"]);
-                $precio = limpiar_cadena($_POST["precio"]);
-                $fecharegistro = limpiar_cadena($_POST["fecharegistro"]);
-                $codcategoria = limpiar_cadena($_POST["codcategoria"]);
-                $codestado = limpiar_cadena($_POST["codestado"]);
-                $sql = "UPDATE producto SET nombre='$nombre', cantidad='$cantidad', precio='$precio', fecharegistro='$fecharegistro',codcategoria='$codcategoria',codestado='$codestado' WHERE codigo ='$codigo'";
+                $codigo = $_POST["codigo"];
+                $nombre = $_POST["nombre"];
+                $cantidad = $_POST["cantidad"];
+                $precio = $_POST["precio"];
+                // $fecharegistro = limpiar_cadena($_POST["fecharegistro"]);
+                $codcategoria = $_POST["codcategoria"];
+                $codestado = $_POST["codestado"];
+                $sql = "UPDATE producto SET nombre='$nombre', cantidad='$cantidad', precio='$precio' , codcategoria='$codcategoria',codestado='$codestado' WHERE codigo ='$codigo'";
                 $result = mysqli_query($cn, $sql);
                 echo json_encode($result);
                 $cn->close();
@@ -198,6 +216,88 @@
                     die("Error" . $e->getMessage());
                 }
             break;
+            ///////REPONER STOCK
+            case "reponerStock":               
+                $codigo = $_POST['codigo'];
+                $cn->begin_transaction();
+                // Obtener el stock actual del producto
+                $stock_query = "SELECT listar_cantidad FROM listar_productos WHERE listar_id = '$codigo'";
+                $stock_result = $cn->query($stock_query);
+                $stock_row = $stock_result->fetch_assoc();
+                $stock_cantidad = $stock_row['listar_cantidad'];
+                
+                $stock_query = "SELECT * FROM listar_productos INNER JOIN producto ON listar_productos.fk_productos = producto.codigo WHERE listar_productos.listar_id = $codigo;";
+                $stock_result = $cn->query($stock_query);
+                $stock_row = $stock_result->fetch_assoc();
+                $stock_productos = $stock_row['listar_cantidad'];
+                
+                // Actualizar el stock
+                $nuevo_stock = $stock_cantidad + $stock_productos;
+                $update_query = "UPDATE producto INNER JOIN listar_productos SET cantidad = producto.cantidad + listar_productos.listar_cantidad WHERE listar_productos.listar_id = $codigo";
+                $cn->query($update_query);
+                
+                // Registrar la transacción de reposición
+                $reposicion_query = "DELETE FROM `listar_productos` WHERE listar_id = '$codigo'";
+                $cn->query($reposicion_query);
+                
+                // Confirmar la transacción
+                $cn->commit();
+                
+                // echo "La reposición se realizó correctamente.";
+                echo json_encode($cn);
+                $cn->close();
+            break;
+            case "realizarVenta":
+                // $codcliente = $_POST['codcliente'];
+
+                $producto_id = $_POST['recibirCodigo'];
+                $recibirNombre = $_POST['recibirNombre'];
+
+                //BOTON PARA RESTAR EL PRECIO
+                $cantidad = $_POST['restarPrecio'];
+                //////////////////////////
+                $recibirPrecio= $_POST['recibirPrecio'];
+                // $recibirFecharegistro = $_POST['recibirFecharegistro'];
+                $recibirCategoria = $_POST['recibirCategoria'];
+                $recibirEstado = $_POST['recibirEstado'];
+                $recibircliente = $_POST['recibircliente'];
+
+                // Iniciar la transacción
+                $cn->begin_transaction();
+                
+                // Obtener el nombre del producto
+                $nombre_query = "SELECT * FROM producto WHERE codigo = $producto_id";
+                $nombre_result = $cn->query($nombre_query);
+                $nombre_row = $nombre_result->fetch_assoc();
+                $nombre_producto = $nombre_row['nombre'];
+                
+                // Obtener el stock actual del producto
+                $stock_query = "SELECT * FROM producto WHERE codigo = $producto_id";
+                $stock_result = $cn->query($stock_query);
+                $stock_row = $stock_result->fetch_assoc();
+                $stock_actual = $stock_row['cantidad'];
+                
+                // Verificar si hay suficiente stock para la venta
+                if ($stock_actual >= $cantidad) {
+                    // Actualizar el stock
+                    $nuevo_stock = $stock_actual - $cantidad;
+                    $update_query = "UPDATE producto SET cantidad = $nuevo_stock WHERE codigo = $producto_id";
+                    $cn->query($update_query);
+                    // Confirmar la transacción
+                    $venta_query = "INSERT INTO listar_productos(listar_nombre, listar_cantidad, listar_precio,listar_categoria,listar_estado,fk_productos,fk_codcliente) VALUES ('$nombre_producto',$cantidad,$recibirPrecio,'$recibirCategoria','$recibirEstado',$producto_id,$recibircliente)";
+                    $cn->query($venta_query);
+                    // Confirmar la transacción
+                    $cn->commit();
+                    echo json_encode("La venta ah sido realizada correctamente");
+                } else {
+                    // Rollback si no hay suficiente stock
+                    $cn->rollback();
+                    echo json_encode("No hay suficiente sotck para realizar la venta");
+                }
+                // echo json_encode($conn);
+                $cn->close();
+            break;
+
             ////////////////
             case "registrarme":
                 $nombre = limpiar_cadena($_POST["nombre"]);
@@ -243,6 +343,7 @@
                     $query = mysqli_query($cn, "INSERT INTO `login`(`nombre`, `apellido`, `correo`, `usuario`, `contrasena`, `fecha`, `imagen`) VALUES ('$nombre','$apellido','$correo','$usuario','$contrasena','$fecha','$imagen')");
                         echo json_encode($query);
             break;
+            //////////////
         }
     }
 }

@@ -3,6 +3,7 @@
     width:55%; 
     justify-content:space-between; 
     align-items:center;
+    z-index: 100;
 }
 .div-bienvenido{
     color:white; 
@@ -24,4 +25,73 @@
 }
 .div-btncerrar a{
     width: 100%;
+}
+
+.div-sesion{
+    width: 43%;
+}
+
+.active:hover{
+    font-weight: bold;
+    text-decoration:underline;
+    padding: 5px;
+    background: rgba(50, 221, 64, 0.137);
+}   
+.logo-imagen img {
+    width: 150px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px #fff;
+}
+@media only screen and (max-width: 800px) {
+    .div-sesion {
+        width: 100%;
+        flex-direction: column;
+        margin-top: 10px;
+    }
+    .navbar-nav{
+        /* display: flex; */
+        flex-direction: row;
+        width: 95%;
+        justify-content: space-between;
+        margin: auto;
+    }
+
+    .div-bienvenido {
+        width: 80%;
+        flex-direction: column;
+    }
+
+    .div-btncerrar {
+        width: 80%;
+        margin: 20px;
+    }
+
+    .div-foto {
+        padding-bottom: 10px;
+    }
+
+    .div-logo {
+        margin: 30px auto;
+        width: 30%;
+    }
+    .logo-imagen {
+        margin: auto;
+        width: 100%;
+    }
+
+    .logo-imagen img {
+        width: 150px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px #fff;
+    }
+}
+
+@media only screen and (min-width: 801px) and (max-width: 1250px) {
+    .div-sesion {
+        width: 85%;
+        margin: auto;
+    }
+    .div-logo{
+        margin: 30px auto;
+    }
 }

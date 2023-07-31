@@ -1,0 +1,111 @@
+
+/* *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+} */
+
+.tablabody tr:hover {
+    background: rgb(160, 222, 225);
+}
+
+.tabla1 {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    z-index: 0;
+}
+.tabla1 thead{
+    position: sticky;top: 0; color:#130E49; background:#467A9D; border-bottom:3px solid black;
+}
+
+.tabla1 td {
+    border: 1px solid #ccc;
+
+    /* padding: 20px; */
+}
+
+tr:nth-child(even) {
+    background: #F9FAF2;
+}
+
+td:nth-child(n + 3) {
+    text-align: center;
+}
+
+.tabla2{
+    float: right;
+    width: 50%; border:none;
+}
+.tabla2 tfoot tr{
+    background:#F5F2ED;
+}
+.tabla2 tfoot tr th{
+    font-size:18px; text-align:right;    
+}
+.reloj-general{
+    width: 35%;
+    border: 4px solid #198754;
+    font-size: 15px;
+    float: right;
+    margin: 0px 20px 20px 20px;
+    line-height: 0.6;
+    border-radius: 10px;
+}
+.wiget{
+    padding-top: 10px;
+    background: #c4eeda;
+    /* color: white; */
+    display: flex;
+    justify-content: space-between;
+}
+.fecha{
+    display: flex;
+    justify-content: space-between;
+    width: 54%;
+    margin: auto;
+    font-weight: bold;
+    font-size: 17px;
+    /* background: #2529a5; */
+}
+.reloj{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 30%;
+    margin: auto;
+    font-size: 20px;
+    font-weight: bold;
+}
+.btn__buscar-cliente{
+    font-weight:bold; 
+    width:50px; 
+    border: 4px solid #04052B; 
+    /* border: none;
+    padding: 4px; */
+    background: #2529a5; 
+    color:white; 
+    border-radius:5px;
+    transition: 1s;
+}
+.btn__buscar-cliente:hover{
+    transform: scale(1.05);
+    background: #2529a5d3; 
+}
+.btn__guardar-cliente{
+    width:48%; background: #FCD100; padding:4px; border:none; border-radius:5px;
+    transition: 1s;
+}
+.btn__guardar-cliente:hover{
+    transform: scale(1.05);
+    background: #fcd200c9;
+}
+
+.btn__buscar-pedido{
+    width:48%; background: #85C1E9; padding:4px; border:none; border-radius:5px;
+    transition: 1s;
+}
+.btn__buscar-pedido:hover{
+    transform: scale(1.05);
+    background: #85c1e9c2;
+}

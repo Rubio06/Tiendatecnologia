@@ -1,0 +1,124 @@
+/* FORMULARIO 1 */
+.contenedor__formulario {
+    width: 100%;
+}
+.div__formulario1{
+    width: 60%; margin:auto;
+}
+.div__inputs1 input {
+    padding: 5px;
+    width: 35%;
+}
+.div__inputs1 button {
+    padding: 5px;
+    width: 25%;
+}
+.div__inputs1{
+    display:flex; justify-content:space-between;
+}
+/* FORMULARIO 2 */
+.div__formulario2{
+    width: 50%;
+    margin: 10px auto;
+}
+.div__inputs2{
+    display:flex; justify-content:space-between;
+}
+.div__inputs2 input {
+    padding: 5px;
+    width: 49%;
+}
+.div__inputs2 select {
+    padding: 5px;
+    width: 49%;
+}
+.titulo__botones{
+    text-align: center; background:#DAF0D8;
+    padding: 10px;
+    margin-top: 18px;
+}
+/*BOTONES CRUD*/
+.btn__crud{
+    display: flex;
+    width:90%;
+    justify-content: space-between;
+    margin: 25px auto;
+}
+.btn__crud-todos{
+    width: 40%; margin:auto;
+}
+.btn__crud-todos button{
+    width: 100%;
+    font-weight: bold;
+    /* color: #ffffffa8; */
+}
+.btn__crud-contenedor{
+    display: flex; justify-content:space-between; width:50%;
+}
+@media only screen and (max-width: 800px) {
+    .div__inputs1{
+        flex-direction: column;
+        width: 100%;
+    }
+    .div__inputs1 input {
+        width: 100%;
+        margin-top: 10px;
+    }
+    .div__inputs1 button {
+        width: 100%;
+        margin-top: 10px;
+    }
+    .div__formulario2{
+        width: 70%;
+        margin-top: 20px;
+    }
+    .div__inputs2{
+        flex-direction: column;
+    }
+    .div__inputs2 input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .div__inputs2 select {
+        width: 100%;
+    }
+    .titulo__botones{
+        width: 100%;
+        font-size: 18px;
+        margin-top: 20px;
+    }
+    .btn__crud{
+        flex-direction: column;
+        width: 100%;
+    }
+    .btn__crud-todos{
+        width: 45%; margin:10px auto;
+    }
+    .btn__crud-contenedor{
+        display: flex; justify-content:space-between; width:100%;
+        margin: auto;
+    }
+}
+@media only screen and (min-width: 801px) and (max-width: 1018px) {
+    .div__formulario1{
+        width: 65%;
+    }
+    .div__inputs1{
+        flex-direction: row;
+        width: 100%;
+    }
+    .div__inputs1 input {
+        width: 80%;
+        margin: 5px;
+    }
+    .div__inputs1 button {
+        width: 60%;
+        margin: 5px;
+    }
+
+    .div__formulario2{
+        width: 60%;
+        margin-top: 20px;
+    }
+    
+}
