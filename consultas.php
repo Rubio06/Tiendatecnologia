@@ -165,6 +165,58 @@
                 $cn->close();
 
             break;
+
+            /////
+            case "mostrarClientes":
+            $codigo = limpiar_cadena($_POST["codigo"]); 
+            $sql = "SELECT * FROM cliente WHERE cliente_codigo ='$codigo'";
+            $result = mysqli_query($cn ,$sql);
+            $datos = mysqli_fetch_all($result, MYSQLI_ASSOC);
+            echo json_encode($datos);
+            $cn->close();
+            break;
+            ///
+            case "busquedaClientes":
+                $colums = ['codcliente', 'cliente_codigo', 'cliente_nombre', 'cliente_apellido', 'cliente_sexo', 'cliente_correo', 'cliente_telefono'];
+                $columsWhere = ['cliente_codigo', 'cliente_nombre', 'cliente_apellido'];
+                $tabla = "cliente";
+            
+                $campo = isset($_POST['campo']) ? $cn->real_escape_string($_POST['campo']) : null;
+                
+                $where = '';
+                //MEMO
+                if ($campo != null) {
+                    $where = 'WHERE (';
+                    $count = count($columsWhere);
+                    for ($i=0; $i < $count; $i++) { 
+                        $where .= $columsWhere[$i] . " LIKE '%" . $campo . "%' OR ";
+                    }
+                    $where = substr_replace($where, "", -3);
+                    $where .= ")";
+                }
+                $sql = "SELECT ". implode(", " , $colums) . " FROM $tabla $where ";
+                $result = $cn->query($sql);
+                $num_rows = $result->num_rows;
+                $html = '';
+                if ($num_rows > 0) {
+                    while ($rows = $result->fetch_assoc()) {
+                        $html .= '<tr  onclick="idCliente(' . $rows["cliente_codigo"] . ')">';
+                        $html .= '<td class="td-datos">'. $rows['codcliente'] . $rows['cliente_codigo'] . '</td>';
+                        $html .= '<td class="td-datos">'. $rows['cliente_nombre'] . '</td>';
+                        $html .= '<td class="td-datos">'. $rows['cliente_apellido'] . '</td>';
+                        $html .= '<td class="td-datos">'. $rows['cliente_sexo'] . '</td>';
+                        $html .= '<td class="td-datos">'. $rows['cliente_correo'] . '</td>';
+                        $html .= '<td class="td-datos">'. $rows['cliente_telefono'] . '</td>';
+                        $html .= '<tr>';
+                    }
+                }else{
+                    $html .= '<tr>';
+                    $html .= '<td colspan="6">No existen resultados</td>';
+                    $html .= '<tr>';
+                }
+                echo json_encode($html,JSON_UNESCAPED_UNICODE);
+            break;
+            /////
             ////////////////
             case "actualizarDatos":
                 $codigo = $_POST["codigo"];

@@ -51,24 +51,30 @@
                     </div>
                     <div>
                         <label for="">APELLIDOS*</label><br>
-                        <input type="text" name="cliente_apellido" name="cliente_apellido" style="width: 220px;">
+                        <input type="text" name="cliente_apellido" id="cliente_apellido" style="width: 220px;">
                     </div>
                     <div>
                         <label for="">SEXO DEL CLIENTE</label><br>
                         <select name="cliente_sexo" id="cliente_sexo" style="width: 220px; padding:3px;">
-                            <option value="">MASCULINO</option>
-                            <option value="">FEMENINO</option>
+                            <option value="">SELECION UN SEXO</option>
+                        <?php 
+                            $sql = "SELECT * FROM cliente";
+                            $exec = mysqli_query($cn, $sql);
+                            while ($lista = mysqli_fetch_assoc($exec)) {
+                            ?>
+                                <option value="<?php echo $lista["cliente_sexo"]?>"><?php echo $lista["cliente_sexo"]?></option>
+                            <?php } ?>
                         </select>
                     </div>
                 </div>
                 <div style="width:77%; margin:auto; display:flex; justify-content:space-between;">
                     <div>
                         <label for="">CORREO*</label><br>
-                        <input type="text" style="width: 300px;">
+                        <input type="text" style="width: 300px;" id="cliente_correo">
                     </div>
                     <div>
                         <label for="">TELEFONO*</label><br>
-                        <input type="text" style="width: 220px;">
+                        <input type="text" style="width: 220px;" id="cliente_telefono">
                     </div>
                     <div style="display:flex; align-items:end;">
                         <!-- <button title="BUSCAR CLIENTE" type="button" class="btn__buscar-cliente" data-bs-toggle="modal-dialog modal-dialog-centered" data-bs-target="#staticBackdrop">....</button> -->
